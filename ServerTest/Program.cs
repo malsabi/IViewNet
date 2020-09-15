@@ -7,10 +7,8 @@ using System.Windows.Forms;
 
 namespace ServerTest
 {
-    //Test
     class Program
     {
- 
         static void Main(string[] args)
         {
             //Console.SetBufferSize(Console.BufferWidth, 32766);
