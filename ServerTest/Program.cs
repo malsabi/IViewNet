@@ -15,7 +15,5 @@ namespace ServerTest
             //Console.ReadKey();
             Application.Run(new StreamForm());
         }
-
-      
     }
 }
