@@ -1,5 +1,4 @@
 ﻿using IViewNet.Common;
-using IViewNet.Common.Enums;
 using IViewNet.Common.Models;
 using System;
 using System.Collections.Generic;
@@ -31,7 +30,7 @@ namespace IViewNet.Server
                 }
             }
         }
-        public PacketManager PacketManager { get; private set; }
+        public PacketManager PacketManager { get; set; }
         public bool IsListening { get; private set; } = false;
         public bool IsShutdown { get; private set; } = false;
         #endregion
@@ -58,9 +57,6 @@ namespace IViewNet.Server
         public delegate void OnClientDisconnectDelegate(Operation Client, string Reason);
         public event OnClientDisconnectDelegate OnClientDisconnect;
 
-        public delegate void OnClientAuthenticatedDelegate(Operation Client, bool Success);
-        public event OnClientAuthenticatedDelegate OnClientAuthenticated;
-
         public delegate void OnClientReceiveDelegate(Operation Client, Packet Message);
         public event OnClientReceiveDelegate OnClientReceive;
 
@@ -83,57 +79,10 @@ namespace IViewNet.Server
         private void SetOnClientDisconnect(Operation Client, string Reason)
         {
             OnClientDisconnect?.Invoke(Client, Reason);
-            Disconnect(Client);
-        }
-        private void SetOnClientAuthenticated(Operation Client, bool Success)
-        {
-            OnClientAuthenticated?.Invoke(Client, Success);
         }
         private void SetOnClientReceive(Operation Client, Packet Message)
         {
             OnClientReceive?.Invoke(Client, Message);
-            //if (Message.Code == (int)NetCommands.Unknown)
-            //{
-            //    SetOnClientDisconnect(Client, "Unknown Client");
-            //}
-            //else
-            //{
-            //    if (Client.IsAuthenticated == false)
-            //    {
-            //        //SetAuthentication
-            //        if (Message.Code == (int)NetCommands.SetAuthentication)
-            //        {
-            //            SetOnClientAuthenticated(Client, true);
-            //            Client.SetAuthentication(true);
-            //            //Client.SendPacket(new Packet((int)NetCommands.Synchronize, NetCommands.Synchronize.ToString(), null));
-            //        }
-            //        else
-            //        {
-            //            SetOnClientAuthenticated(Client, false);
-            //            SetOnClientDisconnect(Client, "Dropped");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        //Synchronize
-            //        if (Message.Code == (int)NetCommands.Synchronize)
-            //        {
-            //            if (Client.IsAuthenticated)
-            //            {
-            //                Client.Synchronize(DateTime.Now);
-            //                OnClientReceive?.Invoke(Client, Message);
-            //            }
-            //            else
-            //            {
-            //                OnClientException(Client, new Exception("Error Received Unknown Packet: " + Message.Name));
-            //            }
-            //        }
-            //        else
-            //        {
-            //            OnClientReceive?.Invoke(Client, Message);
-            //        }
-            //    }
-            //}
         }
         private void SetOnClientSend(Operation Client, Packet Packet)
         {
@@ -165,10 +114,6 @@ namespace IViewNet.Server
             {
                 OnlineClientsLock = new object();
                 Clients = new List<Operation>();
-                PacketManager = new PacketManager();
-                PacketManager.AddPacket(new Packet(0, "SetAuthentication", null));
-                PacketManager.AddPacket(new Packet(1, "GetAuthentication", null));
-                PacketManager.AddPacket(new Packet(2, "Synchronize", null));
 
                 IPEndPoint ListenerEndPoint = new IPEndPoint(IPAddress.Any, Config.GetPort());
 
@@ -407,13 +352,13 @@ namespace IViewNet.Server
                     {
                         if (Clients.Count <= Config.GetMaxConnections())
                         {
-                            SetOnClientConnect(Client);
                             AddClient(Client);
-                            //StartAuthentication(Client);
+                            SetOnClientConnect(Client);
                         }
                         else
                         {
                             SetOnClientDisconnect(Client, "Server reached the maximum number of clients");
+                            Disconnect(Client);
                         }
                     }
                     StartAccept(e);
@@ -488,8 +433,6 @@ namespace IViewNet.Server
             }
             return false;
         }
-        //user is limited only for 30 frames
-        //When he starts recording, 
         private void AddClient(Operation Client)
         {
             lock (OnlineClientsLock)
@@ -512,10 +455,6 @@ namespace IViewNet.Server
             Client.OnClientReceive += SetOnClientReceive;
             Client.OnClientSend += SetOnClientSend;
             Client.OnClientException += SetOnClientException;
-        }
-        private void StartAuthentication(Operation Client)
-        {
-            Client.SendPacket(new Packet((int)NetCommands.GetAuthentication, NetCommands.GetAuthentication.ToString(), null));
         }
         #endregion
         #endregion

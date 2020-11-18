@@ -2,13 +2,14 @@
 {
     public class NetConfig
     {
-        public NetConfig(int maxKeepAliveInterval, int maxPendingConnections, int maxConnections, int maxConnectionsSameIP, bool enableDuplicateIPS, int maxMessageSize, int port, int bufferSize, int headerSize, string path)
+        public NetConfig(int maxKeepAliveInterval, int maxPendingConnections, int maxConnections, int maxConnectionsSameIP, bool enableDuplicateIPS, bool enableKeepAlive, int maxMessageSize, int port, int bufferSize, int headerSize, string path)
         {
             SetMaxTimeOut(maxKeepAliveInterval);
             SetMaxBackLogConnections(maxPendingConnections);
             SetMaxConnections(maxConnections);
             SetMaxSameIPConnections(maxConnectionsSameIP);
             SetEnableDuplicateIPS(enableDuplicateIPS);
+            SetEnableKeepAlive(enableKeepAlive);
             SetMaxMessageSize(maxMessageSize);
             SetPort(port);
             SetBufferSize(bufferSize);
@@ -16,15 +17,14 @@
             SetBlackListPath(path);
         }
 
-        //The port is 1669
         public static NetConfig CreateDefaultServerConfig()
         {
-            return new NetConfig(50, 10000, 10000, 99, false, 1024 * 1024 * 30, 1669, 1024 * 8, 4, "./BLackList.txt");
+            return new NetConfig(50, 10000, 10000, 99, false, false, 1024 * 1024 * 30, 1669, 1024 * 8, 4, "./BLackList.txt");
         }
 
         public static NetConfig CreateDefaultClientConfig()
         {
-            return new NetConfig(50, 0, 0, 0, false, 1024 * 1024, 1669, 1024 * 8, 4, "");
+            return new NetConfig(50, 0, 0, 0, false, false, 1024 * 1024, 1669, 1024 * 8, 4, "");
         }
 
 
@@ -113,6 +113,19 @@
             EnableDuplicateIPS = Value;
         }
 
+        private bool enableKeepAlive;
+        /// <summary>
+        /// If true, the server will alow the keep alive detection
+        /// </summary>
+        /// <returns></returns>
+        public bool GetEnableKeepAlive()
+        {
+            return enableKeepAlive;
+        }
+        public void SetEnableKeepAlive(bool Value)
+        {
+            enableKeepAlive = Value;
+        }
 
         private int MaxMessageSize;
         /// <summary>

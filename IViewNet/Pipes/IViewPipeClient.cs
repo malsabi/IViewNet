@@ -191,5 +191,13 @@ namespace IViewNet.Pipes
             }
         }
         #endregion
+
+        public PipeConfig PipeConfig
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

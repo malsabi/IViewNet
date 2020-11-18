@@ -25,7 +25,6 @@ namespace ServerTest
             InitializeComponent();
             SM = new Server(NetConfig.CreateDefaultServerConfig());
             SM.OnClientConnect += SM_OnClientConnect;
-            SM.OnClientAuthenticated += SM_OnClientAuthenticated;
             SM.OnClientReceive += SM_OnClientReceive;
             SM.OnClientSend += SM_OnClientSend;
             SM.OnClientBlackList += SM_OnClientBlackList;

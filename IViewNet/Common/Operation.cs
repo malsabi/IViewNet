@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace IViewNet.Common
 {
@@ -28,13 +27,13 @@ namespace IViewNet.Common
 
         #region "Properties"
         public bool IsActive { get; private set; }
-        public bool IsAuthenticated { get; private set; }
+        public bool IsAuthenticated { get; set; }
         public IPEndPoint EndPoint { get; private set; }
         public DateTime LastReceive { get; private set; }
         public DateTime LastSent { get; private set; }
         public int TotalBytesSent { get; private set; }
         public int TotalBytesReceived { get; private set; }
-        public object Profile { get; private set; }
+        public object Value { get; set; }
         #endregion
 
         #region "Events"
@@ -67,6 +66,10 @@ namespace IViewNet.Common
         {
             OnClientReceive?.Invoke(this, Message);
         }
+        private void SetOnSendMessage(Packet Message)
+        {
+            OnClientSend?.Invoke(this, Message);
+        }
         #endregion
 
         public Operation(Socket AcceptedClient, NetConfig Config, PacketManager PacketManager)
@@ -83,7 +86,7 @@ namespace IViewNet.Common
             byte[] Message = NetHelper.AppendHeader(Packet.ToPacket(), Config.GetHeaderSize());
             AcceptedClient.Send(Message, 0, Message.Length, SocketFlags.None);
             TotalBytesSent += Message.Length;
-            OnClientSend?.Invoke(this, Packet);
+            SetOnSendMessage(Packet);
         }
 
         public void ShutdownOperation()
@@ -96,7 +99,7 @@ namespace IViewNet.Common
             AcceptedClient.Close();
             IsActive = false;
             IsAuthenticated = false;
-            Profile = null;
+            Value = null;
         }
         #endregion
 
@@ -109,10 +112,6 @@ namespace IViewNet.Common
         {
             LastReceive = TimeStamp;
         }
-        internal void SetAuthentication(bool Value)
-        {
-            IsAuthenticated = Value;
-        }
         internal void Beat()
         {
             if (AcceptedClient != null && IsActive == true)
@@ -122,11 +121,10 @@ namespace IViewNet.Common
                     OnClientDisconnected?.Invoke(this, "Dropped");
                     IsActive = false;
                 }
-                else if ((DateTime.Now - LastReceive).Seconds >= Config.GetMaxTimeOut())
+                else if ((DateTime.Now - LastReceive).Seconds >= Config.GetMaxTimeOut() && Config.GetEnableKeepAlive() == true)
                 {
-                    //MessageBox.Show(string.Format("DateTime Now: {0}, LastReceive: {1}", DateTime.Now, LastReceive));
-                    //OnClientDisconnected?.Invoke(this, "Timeout");
-                    //IsActive = false;
+                    OnClientDisconnected?.Invoke(this, "Timeout");
+                    IsActive = false;
                 }
             }
         }
@@ -153,7 +151,7 @@ namespace IViewNet.Common
                 WriteOffset = 0;
                 MessageSize = 0;
                 State = BufferState.HEADER;
-                Profile = null;
+                Value = null;
             }
             catch (Exception ex)
             {
@@ -218,7 +216,6 @@ namespace IViewNet.Common
             }
         }
 
-        int Counter = 0;
         private void HandleBuffering(object o)
         {
             while (true)
@@ -252,8 +249,6 @@ namespace IViewNet.Common
                                 BytesToProcess -= ExactLength;
 
                                 MessageSize = BitConverter.ToInt32(HeaderStore, 0);
-
-                                Console.WriteLine("Message Size: " + MessageSize);
 
                                 if (MessageSize <= 0 || MessageSize >= Config.GetMaxMessageSize())
                                 {
@@ -291,11 +286,7 @@ namespace IViewNet.Common
                             BytesToProcess -= BodyLength;
                             if (WriteOffset == MessageSize)
                             {
-                                //System.IO.File.WriteAllBytes("./Images/CamImage" + Counter + ".jpeg", BodyStore);
-                                //Counter++;
-                                //Console.WriteLine("Image Received, Size: " + BodyStore.Length);
-                                //Packet Message = PacketManager.GetPacket(BodyStore, 0);
-                                Packet Message = new Packet(004, "Image", BodyStore);
+                                Packet Message = PacketManager.GetPacket(BodyStore, 0);
                                 SetOnReceiveMessage(Message);
                                 State = BufferState.HEADER;
                                 WriteOffset = 0;

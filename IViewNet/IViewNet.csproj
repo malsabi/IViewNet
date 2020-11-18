@@ -70,7 +70,6 @@
   <ItemGroup>
     <Compile Include="Client\Client.cs" />
     <Compile Include="Common\NetConfig.cs" />
-    <Compile Include="Common\Enums\NetCommands.cs" />
     <Compile Include="Common\Enums\BufferState.cs" />
     <Compile Include="Common\Models\EstablishConnectionResult.cs" />
     <Compile Include="Common\Models\Packet.cs" />
@@ -86,6 +85,8 @@
     <Compile Include="Common\Operation.cs" />
     <Compile Include="Server\Server.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Diagram.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

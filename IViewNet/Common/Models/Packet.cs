@@ -7,15 +7,15 @@ namespace IViewNet.Common.Models
         /// <summary>
         /// Represents a 16 bit code for the packet
         /// </summary>
-        public int Code { get; private set; }
+        public int Code { get; set; }
         /// <summary>
         /// Represents a name for the packet
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; set; }
         /// <summary>
         /// Represents a data for the packet
         /// </summary>
-        public byte[] Content { get; private set; }
+        public byte[] Content { get; set; }
 
         public Packet(int Code, string Name, byte[] Content)
         {

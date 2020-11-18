@@ -97,32 +97,7 @@ namespace IViewNet.Client
 
         private void SetOnClientReceive(Operation Client, Packet Message)
         {
-            if (Message.Code == (int)NetCommands.Unknown)
-            {
-                SetOnClientDisconnect(Client, "Unknown Client");
-            }
-            else
-            {
-                if (Client.IsAuthenticated == false)
-                {
-                    //GetAuthentication
-                    if (Message.Code == (int)NetCommands.GetAuthentication)
-                    {
-                        StartAuthentication(Client);
-                        SetOnClientAuthenticated(Client, true);
-                        Client.SetAuthentication(true);
-                    }
-                    else
-                    {
-                        SetOnClientAuthenticated(Client, false);
-                        SetOnClientDisconnect(Client, "Dropped");
-                    }
-                }
-                else
-                {
-                    OnClientReceive?.Invoke(Client, Message);
-                }
-            }
+            OnClientReceive?.Invoke(Client, Message);
         }
         private void SetOnClientSend(Operation Client, Packet Message)
         {
@@ -303,7 +278,7 @@ namespace IViewNet.Client
                 {
                     if (OperationManager.IsAuthenticated)
                     {
-                        OperationManager.SendPacket(new Packet((int)NetCommands.Synchronize, NetCommands.Synchronize.ToString(), null));
+                       //OperationManager.SendPacket(new Packet((int)NetCommands.Synchronize, NetCommands.Synchronize.ToString(), null));
                     }
                 }
                 Thread.Sleep(250);
@@ -345,11 +320,8 @@ namespace IViewNet.Client
             Client.OnClientException += SetOnClientException;
             Client.StartOperation();
         }
-        private void StartAuthentication(Operation Client)
-        {
-            Client.SendPacket(new Packet((int)NetCommands.SetAuthentication, NetCommands.SetAuthentication.ToString(), null));
-        }
         #endregion
+
         #endregion
     }
 }

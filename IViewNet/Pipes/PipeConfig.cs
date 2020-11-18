@@ -19,6 +19,22 @@
             this.MaxNumOfServers = MaxNumOfServers;
         }
 
+        public IViewPipeClient IViewPipeClient
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public IViewPipeServer IViewPipeServer
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public int GetBufferSize()
         {
             if (BufferSize >= 0)

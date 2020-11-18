@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IViewNet.Client.Client">
+    <Position X="0.75" Y="3.5" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="IViewNet.Client.Client.OnExceptionDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Client\Client.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Client.Client.OnClientExceptionDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Client\Client.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Client.Client.OnClientConnectDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Client\Client.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Client.Client.OnClientDisconnectDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Client\Client.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Client.Client.OnClientAuthenticatedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Client\Client.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Client.Client.OnClientReceiveDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Client\Client.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Client.Client.OnClientSendDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Client\Client.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CGASAAEIAgQIAgpAAWAAAZIggQIAQYIIgIEIAgAEIAA=</HashCode>
+      <FileName>Client\Client.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PacketManager1" />
+      <Property Name="Operation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IViewNet.Common.Models.EstablishConnectionResult">
+    <Position X="12.5" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Common\Models\EstablishConnectionResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IViewNet.Common.Models.Packet">
+    <Position X="5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAgAAAAAAAEAgAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Models\Packet.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="NetCommands" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IViewNet.Common.Models.ShutdownResult">
+    <Position X="12.5" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAACAAAAAQAAIAAAAAA=</HashCode>
+      <FileName>Common\Models\ShutdownResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IViewNet.Common.Models.StartAcceptorResult">
+    <Position X="12.5" Y="12" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAEAAAAAAAAAAACAAAAAQAAIAAAAAA=</HashCode>
+      <FileName>Common\Models\StartAcceptorResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IViewNet.Common.Models.StartListenerResult">
+    <Position X="12.5" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAEAAAAAAAAAAACAAAAAQAAIAAAAAA=</HashCode>
+      <FileName>Common\Models\StartListenerResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IViewNet.Common.NetConfig">
+    <Position X="2.25" Y="14" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BIAAAIAAQQACIoAICiAAAABICAgMQAAAgCAqImIAAAQ=</HashCode>
+      <FileName>Common\NetConfig.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Server" />
+      <Property Name="Client" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IViewNet.Common.NetHelper">
+    <Position X="8.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABACAAAAAAAAAAAABAAAAAAAgAAACA=</HashCode>
+      <FileName>Common\NetHelper.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Packet" />
+      <Property Name="Server" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IViewNet.Common.Operation">
+    <Position X="5" Y="7.25" Width="2" />
+    <NestedTypes>
+      <Delegate Name="IViewNet.Common.Operation.OnClientDisconnectedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Common\Operation.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Common.Operation.OnClientReceiveDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Common\Operation.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Common.Operation.OnClientSendDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Common\Operation.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Common.Operation.OnClientExceptionDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Common\Operation.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CLAQQAQCIiUIRoABMCEACAAgEQCQAAAIIBBDBhBAAAQ=</HashCode>
+      <FileName>Common\Operation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Server" />
+      <Property Name="BufferState" />
+      <Property Name="Client" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IViewNet.Common.PacketManager" BaseTypeListCollapsed="true">
+    <Position X="5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAoABIQCEAAAAAAAACAAEgAAAAAAAABAAAAAAAACA=</HashCode>
+      <FileName>Common\PacketManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Packet" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IViewNet.Pipes.IViewPipeClient">
+    <Position X="15.25" Y="0.5" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="IViewNet.Pipes.IViewPipeClient.ConnectedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeClient.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Pipes.IViewPipeClient.ShutdownDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeClient.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Pipes.IViewPipeClient.ReceivedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeClient.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Pipes.IViewPipeClient.SendDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeClient.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Pipes.IViewPipeClient.ExpectionDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeClient.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BKBAAAACAEQEFgAEADAAAAAAAAAAgCQMAAAEAIAEACA=</HashCode>
+      <FileName>Pipes\IViewPipeClient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PipeConfig" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IViewNet.Pipes.IViewPipeServer">
+    <Position X="15.25" Y="7.5" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="IViewNet.Pipes.IViewPipeServer.ConnectedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeServer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Pipes.IViewPipeServer.ShutdownDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeServer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Pipes.IViewPipeServer.ReceivedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeServer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Pipes.IViewPipeServer.SendDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeServer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Pipes.IViewPipeServer.ExpectionDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Pipes\IViewPipeServer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BKAAAAACAEQEFwAFADAAAAAAAAAAgCQMAAACAAAEYCA=</HashCode>
+      <FileName>Pipes\IViewPipeServer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PipeConfig" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IViewNet.Pipes.PipeConfig">
+    <Position X="25" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAACCAAAAACAAEAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Pipes\PipeConfig.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="IViewPipeClient" />
+      <Property Name="IViewPipeServer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="IViewNet.Server.Server">
+    <Position X="8.5" Y="3.5" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="IViewNet.Server.Server.OnExceptionDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Server\Server.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Server.Server.OnClientExceptionDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Server\Server.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Server.Server.OnClientConnectDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Server\Server.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Server.Server.OnClientDisconnectDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Server\Server.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Server.Server.OnClientAuthenticatedDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Server\Server.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Server.Server.OnClientReceiveDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Server\Server.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Server.Server.OnClientSendDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Server\Server.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IViewNet.Server.Server.OnClientBlackListDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Server\Server.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CGQjgIEIBgSKggKQAGAAARKigQIAQICJkAkCAgAFIAA=</HashCode>
+      <FileName>Server\Server.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Operation" />
+      <Property Name="StartListenerResult" />
+      <Property Name="StartAcceptorResult" />
+      <Property Name="EstablishConnectionResult" />
+      <Property Name="PacketManager1" />
+      <Property Name="ShutdownResult" />
+    </ShowAsAssociation>
+  </Class>
+  <Enum Name="IViewNet.Common.Enums.BufferState">
+    <Position X="8.5" Y="15.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Common\Enums\BufferState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IViewNet.Common.Enums.NetCommands">
+    <Position X="0.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAIAAAAAAAABA=</HashCode>
+      <FileName>Common\Enums\NetCommands.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
