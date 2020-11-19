@@ -2,7 +2,7 @@
 {
     public class PipeConfig
     {
-        #region "Fields"
+        #region "Private Fields"
         private readonly int BufferSize;
         private readonly int MaxNumOfServers;
         #endregion
@@ -19,22 +19,6 @@
             this.MaxNumOfServers = MaxNumOfServers;
         }
 
-        public IViewPipeClient IViewPipeClient
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public IViewPipeServer IViewPipeServer
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public int GetBufferSize()
         {
             if (BufferSize >= 0)
@@ -46,7 +30,6 @@
                 return 1024 * 10;
             }
         }
-
         public int GetMaxNumOfServers()
         {
             if (MaxNumOfServers >= 1)

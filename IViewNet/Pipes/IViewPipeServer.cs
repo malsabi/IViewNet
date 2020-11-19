@@ -1,14 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.IO.Pipes;
-using System.ServiceModel.Description;
-using System.Windows.Forms;
 
 namespace IViewNet.Pipes
 {
     public class IViewPipeServer
     {
-        #region "Fields"
+        #region "Private Fields"
         private PipeConfig PipeServerConfig;
         private MemoryStream MessageStore;
         private NamedPipeServerStream Pipe;
@@ -118,7 +116,7 @@ namespace IViewNet.Pipes
             }
         }
 
-        #region "Private methods"
+        #region "Private Methods"
         private void Initialize()
         {
             Pipe = new NamedPipeServerStream("IViewServerManager", PipeDirection.InOut, PipeServerConfig.GetMaxNumOfServers(), PipeTransmissionMode.Message, PipeOptions.Asynchronous);
@@ -196,13 +194,5 @@ namespace IViewNet.Pipes
             }
         }
         #endregion
-
-        public PipeConfig PipeConfig
-        {
-            get => default;
-            set
-            {
-            }
-        }
     }
 }

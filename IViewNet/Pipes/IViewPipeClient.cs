@@ -7,7 +7,7 @@ namespace IViewNet.Pipes
 {
     public class IViewPipeClient
     {
-        #region "Feilds"
+        #region "Private Feilds"
         private PipeConfig PipeClientConfig;
         private MemoryStream MessageStore;
         private NamedPipeClientStream Pipe;
@@ -131,7 +131,7 @@ namespace IViewNet.Pipes
             }
         }
 
-        #region "Private methods"
+        #region "Private Methods"
         private void InitializePipeClient()
         {
             Pipe = new NamedPipeClientStream(".", "IViewServerManager", PipeDirection.InOut);
@@ -192,12 +192,5 @@ namespace IViewNet.Pipes
         }
         #endregion
 
-        public PipeConfig PipeConfig
-        {
-            get => default;
-            set
-            {
-            }
-        }
     }
 }
