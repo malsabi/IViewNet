@@ -8,11 +8,13 @@ NetConfig is the network configuration for server/client which contains all of t
 If you want to use the default configuration for server call the method 
 ```csharp
 NetConfig.CreateDefaultServerConfig();
+```
 If you want to use the default configuration for client call the method
 ```charp
 NetConfig.CreateDefaultClientConfig();
+```
+Setting the server
 ```csharp
-
                 NetConfig ServerConfig = NetConfig.CreateDefaultServerConfig();
                 Server MyServer = new Server(ServerConfig);
                 MyServer.OnClientConnect += ParentServer_OnClientConnect;
