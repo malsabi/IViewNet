@@ -29,44 +29,44 @@ namespace IViewNet.Pipes
 
         public bool IsPipeShutdown { get; private set; }
         #endregion
-
+        
         #region "Events"
-        public delegate void ConnectedDelegate();
-        public event ConnectedDelegate ClientConnectedEvent;
+        public delegate void PipeConnectedDelegate();
+        public event PipeConnectedDelegate PipeConnectedEvent;
 
-        public delegate void ShutdownDelegate();
-        public event ShutdownDelegate ClientShutdownEvent;
+        public delegate void PipeClosedDelegate();
+        public event PipeClosedDelegate PipeClosedEvent;
 
-        public delegate void ReceivedDelegate(byte[] Message);
-        public event ReceivedDelegate ClientReceiveEvent;
+        public delegate void PipeReceivedDelegate(byte[] Message);
+        public event PipeReceivedDelegate PipeReceivedEvent;
 
-        public delegate void SendDelegate(byte[] Message);
-        public event SendDelegate ClientSendEvent;
+        public delegate void PipeSentDelegate(byte[] Message);
+        public event PipeSentDelegate PipeSentEvent;
 
-        public delegate void ExpectionDelegate(Exception Error);
-        public event ExpectionDelegate ClientExceptionEvent;
+        public delegate void PipeExpectionDelegate(Exception Error);
+        public event PipeExpectionDelegate PipeExceptionEvent;
         #endregion
 
         #region "Events Handlers"
-        private void OnClientConnected()
+        private void SetOnPipeConnected()
         {
-            ClientConnectedEvent?.Invoke();
+            PipeConnectedEvent?.Invoke();
         }
-        private void OnClientDisconnected()
+        private void SetOnPipeClosed()
         {
-            ClientShutdownEvent?.Invoke();
+            PipeClosedEvent?.Invoke();
         }
-        private void OnClientReceive(byte[] Message)
+        private void SetOnPipeReceived(byte[] Message)
         {
-            ClientReceiveEvent?.Invoke(Message);
+            PipeReceivedEvent?.Invoke(Message);
         }
-        private void OnClientSend(byte[] Message)
+        private void SetOnPipeSent(byte[] Message)
         {
-            ClientSendEvent?.Invoke(Message);
+            PipeSentEvent?.Invoke(Message);
         }
-        private void OnClientException(Exception Error)
+        private void SetOnPipeException(Exception Error)
         {
-            ClientExceptionEvent?.Invoke(Error);
+            PipeExceptionEvent?.Invoke(Error);
         }
         #endregion
 
@@ -84,7 +84,7 @@ namespace IViewNet.Pipes
             }
             catch (Exception ex)
             {
-                OnClientException(ex);
+                SetOnPipeException(ex);
                 ClosePipeServer();
             }
         }
@@ -102,7 +102,7 @@ namespace IViewNet.Pipes
                     Pipe.Close();
                     Pipe.Dispose();
                     IsPipeShutdown = true;
-                    OnClientDisconnected();
+                    SetOnPipeClosed();
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace IViewNet.Pipes
             if (Pipe.IsConnected)
             {
                 Pipe.Write(Message, 0, Message.Length);
-                OnClientSend(Message);
+                SetOnPipeSent(Message);
             }
         }
 
@@ -137,13 +137,13 @@ namespace IViewNet.Pipes
                 Pipe.EndWaitForConnection(Ar);
                 if (IsPipeConnected)
                 {
-                    OnClientConnected();
+                    SetOnPipeConnected();
                     StartReceivingData();
                 }
             }
             catch (Exception ex)
             {
-                OnClientException(ex);
+                SetOnPipeException(ex);
                 ClosePipeServer();
             }
         }
@@ -158,7 +158,7 @@ namespace IViewNet.Pipes
                 }
                 catch (Exception ex)
                 {
-                    OnClientException(ex);
+                    SetOnPipeException(ex);
                     ClosePipeServer();
                 }
             }
@@ -180,7 +180,7 @@ namespace IViewNet.Pipes
 
                     if (Pipe.IsMessageComplete)
                     {
-                        OnClientReceive(MessageStore.ToArray());
+                        SetOnPipeReceived(MessageStore.ToArray());
                         MessageStore.Position = 0;
                         MessageStore.SetLength(0);
                     }
@@ -189,7 +189,7 @@ namespace IViewNet.Pipes
             }
             catch (Exception ex)
             {
-                OnClientException(ex);
+                SetOnPipeException(ex);
                 ClosePipeServer();
             }
         }
