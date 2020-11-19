@@ -32,5 +32,4 @@ An advanced library used for interprocess communication which provides a Server/
                 {
                     SetOnException(ListenerResult.Message);
                 }
-'''
 
