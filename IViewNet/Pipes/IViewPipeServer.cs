@@ -85,11 +85,11 @@ namespace IViewNet.Pipes
             catch (Exception ex)
             {
                 OnClientException(ex);
-                ShutdownServer();
+                ClosePipeServer();
             }
         }
 
-        public void ShutdownServer()
+        public void ClosePipeServer()
         {
             lock (ShutdownLock)
             {
@@ -144,7 +144,7 @@ namespace IViewNet.Pipes
             catch (Exception ex)
             {
                 OnClientException(ex);
-                ShutdownServer();
+                ClosePipeServer();
             }
         }
 
@@ -159,7 +159,7 @@ namespace IViewNet.Pipes
                 catch (Exception ex)
                 {
                     OnClientException(ex);
-                    ShutdownServer();
+                    ClosePipeServer();
                 }
             }
         }
@@ -172,7 +172,7 @@ namespace IViewNet.Pipes
 
                 if (BytesReceived <= 0)
                 {
-                    ShutdownServer();
+                    ClosePipeServer();
                 }
                 else
                 {
@@ -190,7 +190,7 @@ namespace IViewNet.Pipes
             catch (Exception ex)
             {
                 OnClientException(ex);
-                ShutdownServer();
+                ClosePipeServer();
             }
         }
         #endregion
