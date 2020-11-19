@@ -6,6 +6,7 @@ An advanced library used for interprocess communication which provides a Server/
 ### Usage
 ```csharp
 
+                NetConfig ServerConfig = NetConfig.CreateDefaultServerConfig();
                 Server MyServer = new Server(ServerConfig);
                 MyServer.OnClientConnect += ParentServer_OnClientConnect;
                 MyServer.OnClientSend += ParentServer_OnClientSend;
