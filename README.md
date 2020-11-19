@@ -10,7 +10,7 @@ If you want to use the default configuration for server call the method
 NetConfig.CreateDefaultServerConfig();
 ```
 If you want to use the default configuration for client call the method
-```charp
+```csharp
 NetConfig.CreateDefaultClientConfig();
 ```
 Setting the server
