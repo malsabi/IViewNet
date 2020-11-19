@@ -3,7 +3,14 @@
 ### About
 An advanced library used for interprocess communication which provides a Server/Client (Sockets) and Process Pipelining.
 
-### Usage
+### Creating a Server Listener
+NetConfig is the network configuration for server/client which contains all of the needed properties to set up the server or client
+If you want to use the default configuration for server call the method 
+```csharp
+NetConfig.CreateDefaultServerConfig();
+If you want to use the default configuration for client call the method
+```charp
+NetConfig.CreateDefaultClientConfig();
 ```csharp
 
                 NetConfig ServerConfig = NetConfig.CreateDefaultServerConfig();
