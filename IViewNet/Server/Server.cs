@@ -273,10 +273,19 @@ namespace IViewNet.Server
                     IsListening = false;
                     StopHeartBeat();
                     DisconnectAll();
-                    Clients.Clear();
-                    BlackListedIP.Clear();
+                    if (Clients != null)
+                    {
+                        Clients.Clear();
+                    }
+                    if (BlackListedIP != null)
+                    {
+                        BlackListedIP.Clear();
+                    }
+                    if (PacketManager != null)
+                    {
+                        PacketManager.Dispose();
+                    }
                     Listener.Close();
-                    PacketManager.Dispose();
                     Result = new ShutdownResult("Server Shutdown Successfully", "Shutdown", DateTime.Now, true);
                 }
                 else

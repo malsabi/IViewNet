@@ -34,14 +34,14 @@ namespace IViewNet.Pipes
         public delegate void PipeConnectedDelegate();
         public event PipeConnectedDelegate PipeConnectedEvent;
 
-        public delegate void PipeClosedDelegate();
-        public event PipeClosedDelegate PipeClosedEvent;
-
         public delegate void PipeReceivedDelegate(byte[] Message);
         public event PipeReceivedDelegate PipeReceivedEvent;
 
         public delegate void PipeSentDelegate(byte[] Message);
         public event PipeSentDelegate PipeSentEvent;
+
+        public delegate void PipeClosedDelegate();
+        public event PipeClosedDelegate PipeClosedEvent;
 
         public delegate void PipeExpectionDelegate(Exception Error);
         public event PipeExpectionDelegate PipeExceptionEvent;
@@ -66,7 +66,10 @@ namespace IViewNet.Pipes
         }
         private void SetOnPipeException(Exception Error)
         {
-            PipeExceptionEvent?.Invoke(Error);
+            if (IsPipeShutdown == false)
+            {
+                PipeExceptionEvent?.Invoke(Error);
+            }
         }
         #endregion
 

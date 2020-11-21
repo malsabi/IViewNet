@@ -17,6 +17,10 @@
             SetBlackListPath(path);
         }
 
+        public NetConfig()
+        {
+        }
+
         public static NetConfig CreateDefaultServerConfig()
         {
             return new NetConfig(50, 10000, 10000, 99, false, false, 1024 * 1024 * 30, 1669, 1024 * 8, 4, "./BLackList.txt");
