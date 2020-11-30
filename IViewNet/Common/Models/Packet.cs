@@ -7,7 +7,7 @@ namespace IViewNet.Common.Models
         /// <summary>
         /// Represents a 16 bit code for the packet
         /// </summary>
-        public int Code { get; set; }
+        public short Code { get; set; }
         /// <summary>
         /// Represents a name for the packet
         /// </summary>
@@ -17,7 +17,7 @@ namespace IViewNet.Common.Models
         /// </summary>
         public byte[] Content { get; set; }
 
-        public Packet(int Code, string Name, byte[] Content)
+        public Packet(short Code, string Name, byte[] Content)
         {
             this.Code = Code;
             this.Name = Name;

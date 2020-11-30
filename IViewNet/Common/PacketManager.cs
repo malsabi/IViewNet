@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace IViewNet.Common
 {
@@ -15,11 +14,11 @@ namespace IViewNet.Common
     public class PacketManager : IDisposable
     {
 
-        private readonly Dictionary<int, Packet> Packets;
+        private readonly Dictionary<short, Packet> Packets;
 
         public PacketManager()
         {
-            Packets = new Dictionary<int, Packet>();
+            Packets = new Dictionary<short, Packet>();
         }
 
         #region "Public Methods"
@@ -55,7 +54,7 @@ namespace IViewNet.Common
         /// Retreives all of the packets
         /// </summary>
         /// <returns>Array of Packets</returns>
-        public KeyValuePair<int, Packet>[] GetPackets()
+        public KeyValuePair<short, Packet>[] GetPackets()
         {
             return Packets.ToArray();
         }
@@ -65,7 +64,7 @@ namespace IViewNet.Common
         /// </summary>
         /// <param name="Code"></param>
         /// <returns>Name</returns>
-        public string GetPacketName(int Code)
+        public string GetPacketName(short Code)
         {
             return Packets[Code].Name;
         }
@@ -75,7 +74,7 @@ namespace IViewNet.Common
         /// </summary>
         /// <param name="Code"></param>
         /// <param name="Name"></param>
-        public void SetPacketName(int Code, string Name)
+        public void SetPacketName(short Code, string Name)
         {
             if (Packets.ContainsKey(Code))
             {
@@ -88,9 +87,9 @@ namespace IViewNet.Common
         /// </summary>
         /// <param name="Name"></param>
         /// <returns></returns>
-        public int GetPacketCode(string Name)
+        public short GetPacketCode(string Name)
         {
-            foreach (KeyValuePair<int, Packet> Packet in GetPackets())
+            foreach (KeyValuePair<short, Packet> Packet in GetPackets())
             {
                 if (Packet.Value.Name.Equals(Name))
                 {
@@ -105,7 +104,7 @@ namespace IViewNet.Common
         /// </summary>
         /// <param name="Code"></param>
         /// <returns></returns>
-        public byte[] GetPacketContent(int Code)
+        public byte[] GetPacketContent(short Code)
         {
             if (Packets.ContainsKey(Code))
             {
@@ -119,7 +118,7 @@ namespace IViewNet.Common
         /// </summary>
         /// <param name="Code"></param>
         /// <returns>True if found, False otherwise</returns>
-        public bool IsCodeValid(int Code)
+        public bool IsCodeValid(short Code)
         {
             if (Packets.ContainsKey(Code))
             {
@@ -133,19 +132,19 @@ namespace IViewNet.Common
         }
         #endregion
         #region "Static Methods"
-        public Packet GetPacket(byte[] Packet, int Offset)
+        public Packet GetPacket(byte[] Packet, short Offset)
         {
             //The incoming packet now is combined with [Code][Content] so we will desolve them
             //Create an Packet Object to add the code, name, data
             Packet Message;
             //Extract the code
-            int Code = BitConverter.ToInt16(Packet, Offset);
+            short Code = BitConverter.ToInt16(Packet, Offset);
             //Verify the code
             if (IsCodeValid(Code))
             {
                 //Initialize a content
                 byte[] Content = new byte[Packet.Length - Offset - 2];
-                //Copy the packet content into our content
+                //Copy the packet content shorto our content
                 Buffer.BlockCopy(Packet, 2 + Offset, Content, 0, Content.Length);
                 //Create an instance of packet object
                 Message = new Packet(Code, GetPacketName(Code), Content);

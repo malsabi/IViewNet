@@ -13,7 +13,7 @@ namespace IViewNet.Server
     {
         private readonly NetConfig Config;
         private Socket Listener;
-        private List<IPAddress> BlackListedIP;
+        //private List<IPAddress> BlackListedIP;
         private CancellationTokenSource HeartBeatCancellationToken;
         private object OnlineClientsLock;
         private List<Operation> Clients;
@@ -176,50 +176,50 @@ namespace IViewNet.Server
         /// <summary>
         /// Loads all the BlackListed IP's from the file to the black list
         /// </summary>
-        public void LoadBlackListedIPS()
-        {
-            if (File.Exists(Config.GetBlackListPath()))
-            {
-                BlackListedIP = new List<IPAddress>();
-                string[] IPS = File.ReadAllLines(Config.GetBlackListPath());
-                foreach (string IP in IPS)
-                {
-                    if (NetHelper.ValidateIPv4(IP))
-                    {
-                        IPAddress EndPoint = IPAddress.Parse(IP);
-                        BlackListedIP.Add(EndPoint);
-                    }
-                }
-            }
-            else
-            {
-                File.Create(Config.GetBlackListPath()).Dispose();
-                LoadBlackListedIPS();
-            }
-        }
+        //public void LoadBlackListedIPS()
+        //{
+        //    if (File.Exists(Config.GetBlackListPath()))
+        //    {
+        //        BlackListedIP = new List<IPAddress>();
+        //        string[] IPS = File.ReadAllLines(Config.GetBlackListPath());
+        //        foreach (string IP in IPS)
+        //        {
+        //            if (NetHelper.ValidateIPv4(IP))
+        //            {
+        //                IPAddress EndPoint = IPAddress.Parse(IP);
+        //                BlackListedIP.Add(EndPoint);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        File.Create(Config.GetBlackListPath()).Dispose();
+        //        LoadBlackListedIPS();
+        //    }
+        //}
 
         /// <summary>
         /// Adds IP to the blacklist
         /// </summary>
         /// <param name="IP"></param>
-        public void AddIpToBlackList(string IP)
-        {
-            IPAddress EndPoint = IPAddress.Parse(IP);
-            BlackListedIP.Add(EndPoint);
-        }
+        //public void AddIpToBlackList(string IP)
+        //{
+        //    IPAddress EndPoint = IPAddress.Parse(IP);
+        //    BlackListedIP.Add(EndPoint);
+        //}
 
-        /// <summary>
-        /// Removes IP from the blacklist
-        /// </summary>
-        /// <param name="IP"></param>
-        public void RemoveIpFromBlackList(string IP)
-        {
-            IPAddress EndPoint = IPAddress.Parse(IP);
-            if (BlackListedIP.Contains(EndPoint))
-            {
-                BlackListedIP.Remove(EndPoint);
-            }
-        }
+        ///// <summary>
+        ///// Removes IP from the blacklist
+        ///// </summary>
+        ///// <param name="IP"></param>
+        //public void RemoveIpFromBlackList(string IP)
+        //{
+        //    IPAddress EndPoint = IPAddress.Parse(IP);
+        //    if (BlackListedIP.Contains(EndPoint))
+        //    {
+        //        BlackListedIP.Remove(EndPoint);
+        //    }
+        //}
 
         /// <summary>
         /// Disconnect a specified client
@@ -277,10 +277,10 @@ namespace IViewNet.Server
                     {
                         Clients.Clear();
                     }
-                    if (BlackListedIP != null)
-                    {
-                        BlackListedIP.Clear();
-                    }
+                    //if (BlackListedIP != null)
+                    //{
+                    //    BlackListedIP.Clear();
+                    //}
                     if (PacketManager != null)
                     {
                         PacketManager.Dispose();
@@ -295,7 +295,7 @@ namespace IViewNet.Server
             }
             catch (Exception ex)
             {
-                Result = new ShutdownResult(string.Format("Shutdown Exception: {0}", ex.Message), "Shutdown", DateTime.Now, false);
+                Result = new ShutdownResult(string.Format("Shutdown Exception Shutdown: {0}", ex.Message), "Shutdown", DateTime.Now, false);
             }
             return Result;
         }
@@ -328,7 +328,7 @@ namespace IViewNet.Server
             {
                 if (IsListening == true && IsShutdown == false)
                 {
-                    SetOnException(new Exception("Could not start accept due to server shutdown"));
+                    SetOnException(new Exception("Server Exception (StartAccept): Could not start accept due to server shutdown"));
                     Shutdown();
                 }
             }
@@ -336,7 +336,7 @@ namespace IViewNet.Server
             {
                 if (IsListening == true && IsShutdown == false)
                 {
-                    SetOnException(ex);
+                    SetOnException(new Exception(string.Format("Server Exception (StartAccept): {0}", ex.Message)));
                     Shutdown();
                 }
             }
@@ -344,18 +344,18 @@ namespace IViewNet.Server
 
         private void ProcessAccept(SocketAsyncEventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 if (e.SocketError == SocketError.Success)
                 {
                     Socket EstablishedConnection = e.AcceptSocket;
 
                     Operation Client = new Operation(EstablishedConnection, Config, PacketManager);
 
-                    if (IsClientBlackListed(Client))
+                    if (false) //IsClientBlackListed(Client)
                     {
-                        SetOnClientBlackList(Client.EndPoint.Address, "Connection blocked");
-                        Disconnect(Client);
+                        //SetOnClientBlackList(Client.EndPoint.Address, "Connection blocked");
+                        //Disconnect(Client);
                     }
                     else
                     {
@@ -376,20 +376,20 @@ namespace IViewNet.Server
                 {
                     if (IsListening == true && IsShutdown == false)
                     {
-                        SetOnException(new Exception("Could not process the accepted connections due to server shutdown"));
+                        SetOnException(new Exception("Server Exception (ProcessAccept): Could not process the accepted connections due to server shutdown"));
                         Shutdown();
                     }
                    
                 }
-            }
-            catch (Exception ex)
-            {
-                if (IsListening == true && IsShutdown == false)
-                {
-                    SetOnException(ex);
-                    Shutdown();
-                }
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (IsListening == true && IsShutdown == false)
+            //    {
+            //        SetOnException(new Exception(string.Format("Server Exception (ProcessAccept): {0}", ex.Message)));
+            //        Shutdown();
+            //    }
+            //}
         }
         #endregion
         #region "HeartBeat"
@@ -430,18 +430,18 @@ namespace IViewNet.Server
         }
         #endregion
         #region "Helpers"
-        private bool IsClientBlackListed(Operation Client)
-        {
-            if (BlackListedIP == null)
-            {
-                LoadBlackListedIPS();
-            }
-            if (BlackListedIP.Contains(Client.EndPoint.Address))
-            {
-                return true;
-            }
-            return false;
-        }
+        //private bool IsClientBlackListed(Operation Client)
+        //{
+        //    if (BlackListedIP == null)
+        //    {
+        //        LoadBlackListedIPS();
+        //    }
+        //    if (BlackListedIP.Contains(Client.EndPoint.Address))
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
         private void AddClient(Operation Client)
         {
             lock (OnlineClientsLock)

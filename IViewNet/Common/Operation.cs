@@ -83,10 +83,20 @@ namespace IViewNet.Common
         #region "Public Methods"
         public void SendPacket(Packet Packet)
         {
-            byte[] Message = NetHelper.AppendHeader(Packet.ToPacket(), Config.GetHeaderSize());
-            AcceptedClient.Send(Message, 0, Message.Length, SocketFlags.None);
-            TotalBytesSent += Message.Length;
-            SetOnSendMessage(Packet);
+            if (IsActive)
+            {
+                try
+                {
+                    byte[] Message = NetHelper.AppendHeader(Packet.ToPacket(), Config.GetHeaderSize());
+                    AcceptedClient.Send(Message, 0, Message.Length, SocketFlags.None);
+                    TotalBytesSent += Message.Length;
+                    SetOnSendMessage(Packet);
+                }
+                catch
+                {
+                    IsActive = false;
+                }
+            }
         }
 
         public void ShutdownOperation()
@@ -287,9 +297,18 @@ namespace IViewNet.Common
                             if (WriteOffset == MessageSize)
                             {
                                 Packet Message = PacketManager.GetPacket(BodyStore, 0);
-                                SetOnReceiveMessage(Message);
-                                State = BufferState.HEADER;
-                                WriteOffset = 0;
+                                if (Message.Code == -1)
+                                {
+                                    OnClientDisconnected?.Invoke(this, "Invalid Packet Message");
+                                    IsActive = false;
+                                    BytesToProcess = 0;
+                                }
+                                else
+                                {
+                                    SetOnReceiveMessage(Message);
+                                    State = BufferState.HEADER;
+                                    WriteOffset = 0;
+                                }
                             }
                             break;
                     }

@@ -31,7 +31,6 @@
             return new NetConfig(50, 0, 0, 0, false, false, 1024 * 1024, 1669, 1024 * 8, 4, "");
         }
 
-
         private int MaxTimeOut;
         /// <summary>
         /// The Time to wait for a client to response

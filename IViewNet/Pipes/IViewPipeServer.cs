@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IViewNet.Common;
+using IViewNet.Common.Models;
+using System;
 using System.IO;
 using System.IO.Pipes;
 
@@ -26,7 +28,7 @@ namespace IViewNet.Pipes
                 return false;
             }
         }
-
+        public PacketManager PacketManager { get; set; }
         public bool IsPipeShutdown { get; private set; }
         #endregion
         
@@ -34,10 +36,10 @@ namespace IViewNet.Pipes
         public delegate void PipeConnectedDelegate();
         public event PipeConnectedDelegate PipeConnectedEvent;
 
-        public delegate void PipeReceivedDelegate(byte[] Message);
+        public delegate void PipeReceivedDelegate(Packet Message);
         public event PipeReceivedDelegate PipeReceivedEvent;
 
-        public delegate void PipeSentDelegate(byte[] Message);
+        public delegate void PipeSentDelegate(Packet Message);
         public event PipeSentDelegate PipeSentEvent;
 
         public delegate void PipeClosedDelegate();
@@ -56,11 +58,11 @@ namespace IViewNet.Pipes
         {
             PipeClosedEvent?.Invoke();
         }
-        private void SetOnPipeReceived(byte[] Message)
+        private void SetOnPipeReceived(Packet Message)
         {
             PipeReceivedEvent?.Invoke(Message);
         }
-        private void SetOnPipeSent(byte[] Message)
+        private void SetOnPipeSent(Packet Message)
         {
             PipeSentEvent?.Invoke(Message);
         }
@@ -91,7 +93,6 @@ namespace IViewNet.Pipes
                 ClosePipeServer();
             }
         }
-
         public void ClosePipeServer()
         {
             lock (ShutdownLock)
@@ -104,17 +105,22 @@ namespace IViewNet.Pipes
                     }
                     Pipe.Close();
                     Pipe.Dispose();
+                    if (PacketManager != null)
+                    {
+                        PacketManager.Dispose();
+                    }
                     IsPipeShutdown = true;
                     SetOnPipeClosed();
                 }
             }
         }
-
-        public void SendMessage(byte[] Message)
+        public void SendMessage(Packet Message)
         {
             if (Pipe.IsConnected)
             {
-                Pipe.Write(Message, 0, Message.Length);
+                byte[] MessageBytes = Message.ToPacket();
+                Pipe.Write(MessageBytes, 0, MessageBytes.Length);
+                Pipe.Flush();
                 SetOnPipeSent(Message);
             }
         }
@@ -123,13 +129,10 @@ namespace IViewNet.Pipes
         private void Initialize()
         {
             Pipe = new NamedPipeServerStream("IViewServerManager", PipeDirection.InOut, PipeServerConfig.GetMaxNumOfServers(), PipeTransmissionMode.Message, PipeOptions.Asynchronous);
-
+            PacketManager = new PacketManager();
             MessageStore = new MemoryStream();
-
             InnerBuffer = new byte[PipeServerConfig.GetBufferSize()];
-
             ShutdownLock = new object();
-
             IsPipeShutdown = false;
         }
 
@@ -175,15 +178,16 @@ namespace IViewNet.Pipes
 
                 if (BytesReceived <= 0)
                 {
+                    Console.WriteLine("LESS THAN ZERO");
                     ClosePipeServer();
                 }
                 else
                 {
                     MessageStore.Write(InnerBuffer, 0, BytesReceived);
-
                     if (Pipe.IsMessageComplete)
                     {
-                        SetOnPipeReceived(MessageStore.ToArray());
+                        Packet Message = PacketManager.GetPacket(MessageStore.ToArray(), 0);
+                        SetOnPipeReceived(Message);
                         MessageStore.Position = 0;
                         MessageStore.SetLength(0);
                     }
